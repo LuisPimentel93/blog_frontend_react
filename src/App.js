@@ -1,5 +1,4 @@
-import Post from './Components/Post';
-import Header from './Components/Header';
+
 import './App.css';
 import {Routes, Route,  } from 'react-router-dom';
 import Layout from './Components/Layout';
