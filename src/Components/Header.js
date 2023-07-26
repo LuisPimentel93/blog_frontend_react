@@ -1,26 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, } from 'react'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../UserContext'
 
 const Header = () => {
-    // const URL = `${process.env.REACT_APP_BACKEND_URI}/profile`
-    const [username, setUsername] = useState('')
+   
+   const {setUserInfo, userInfo} = useContext(UserContext)
+
+const display = userInfo && (
+    <h3>{userInfo.username}</h3>
+)
    
     useEffect(() => {
-        fetch('http://localhost:8080/profile', {
+        fetch('http://localhost:8080/profiles/profile', {
             credentials: 'include'
         }). then(response => {
-            response.json().then(profiles => {
-                setUsername(profiles.username)
+            response.json().then(userInfo => {
+                setUserInfo(userInfo)
             })
         })
-    }, [])
+    }, [setUserInfo,])
+
+    function logout(){
+        fetch('http://localhost:8080/profiles/logout', {
+            credentials: 'include',
+            method: 'POST',
+            
+        });
+        setUserInfo(null)
+    }
+
+    const username = userInfo?.username
   return (
     <header>
         <Link to='/' className='logo'>CodeBook Blog</Link> 
         <nav>
             {username && (
                 <>
+                    
                     <Link to='/create'>Create new post</Link>
+                    <Link onClick={logout} to='/login'>Logout</Link>
                 </>
             )}
             {!username && (
