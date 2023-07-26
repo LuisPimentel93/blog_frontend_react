@@ -10,22 +10,7 @@ const SignupPage = () => {
     email: "",
     password: "",
   });
-    // const [username, setUsername] = useState('')
-    // const [email, setEmail] = useState('')
-    // const [firstname, setFirstname] = useState('')
-    // const [lastname, setLastname] = useState('')
-    // const [password, setPassword] = useState('')
-    // // async function signup(e){
-    // //     e.preventDefault()
-    //      await fetch('http://localhost:8080/signup', {
-    //         method: 'post',
-    //         body: JSON.stringify({profileInput}),
-    //         headers: {'Content-Type': "application/json"},
-    //     })
-    // }
-
-    // const URL = `${process.env.REACT_APP_BACKEND_URI}/profile`;
-
+  const URL = `${process.env.REACT_APP_BACKEND_URI}/profiles`;
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -38,7 +23,7 @@ const SignupPage = () => {
       const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(profileInput)
-        const response = await fetch('http://localhost:8080/profile', {
+        const response = await fetch(URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(profileInput),
@@ -73,7 +58,6 @@ const SignupPage = () => {
         placeholder="Last name"/>
         
         <input type="password"
-        // secureTextEntry={true}
         onChange={handleChange}
         name="password"
         placeholder="Password"/>
