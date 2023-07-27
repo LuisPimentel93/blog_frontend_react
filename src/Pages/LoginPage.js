@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Navigate } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 
 
  
 const LoginPage = () => {
-    const {setUserInfo, userInfo} = useContext(UserContext)
+    const {setUserInfo} = useContext(UserContext)
     const Navigate = useNavigate();
     const URL = `${process.env.REACT_APP_BACKEND_URI}/profiles/login`;
 
