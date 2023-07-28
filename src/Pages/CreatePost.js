@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const modules = {
     toolbar: [
@@ -18,45 +22,58 @@ const formats = [
 'link', 'image'
 ]
 
-
 const CreatePost = () => {
+    const homeNavigate = useNavigate();
     const [title, setTitle] = useState('')
     const [summary, setSummary] = useState('')
     const [content, setContent] = useState('')
     const [files, setFiles] = useState('')
+    const [redirect, setRedirect] = useState (false)
     
     
     async function createNewPost(e) {
-        const data = new FormData()
-        data.set('summary', summary)
-        data.set('title', title)
-        data.set('content', content)
-        data.set('file', files[0])
         e.preventDefault();
-        console.log(files)
+    
+        const data = new FormData(e.currentTarget)
+        data.set('content', content)
+        data.set('files', files)
+        const formData = Object.fromEntries(data)
+        console.log(formData)
         const response = await fetch('http://localhost:8080/profiles/post',{
             method: 'POST',
             body: data,
         })
-        console.log(data)
-        console.log(await response.json())
+        if (response.ok) {
+            console.log(response)
+            setRedirect(true)
+         }
+        
+        if (redirect){
+            return  homeNavigate('/')
+        }
+       
     }
   return (
     <form onSubmit={createNewPost}>
         <input type='title' 
         placeholder='Title'
+        name='title'
         value={title}
         onChange={e => setTitle(e.target.value)}/>
 
         <input type='summary' 
         placeholder='Summary'
+        name='summary'
         value={summary}
         onChange={e => setSummary(e.target.value)}/>
 
         <input type='file'
+        name='file'
+       
          onChange={e => setFiles(e.target.value)}/>
 
-        <ReactQuill 
+        <ReactQuill
+        name='content' 
         value={content} 
         onChange={newValue => setContent(newValue)}
         modules={modules} formats={formats}/>
